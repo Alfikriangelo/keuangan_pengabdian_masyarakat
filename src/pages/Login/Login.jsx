@@ -14,12 +14,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../../authContext';
+import Image from '../../assets/login.png'
 
-
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
 
 export default function Login() {
   const { login } = useAuth();
@@ -56,7 +52,7 @@ export default function Login() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <div>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -65,15 +61,30 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            position: 'relative',
+            backgroundImage: `url(${Image})`,
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
+            backgroundColor: '#E6FEED',
+            backgroundSize: '55%', // Ubah sesuai kebutuhan ukuran gambar
             backgroundPosition: 'center',
+           
           }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        >
+          <div
+            style={{
+              position: 'absolute',
+              top: '14%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              color: '#434343',
+              fontSize: '32px',
+              fontWeight: 'bold',
+            }}
+          >
+            Pengolahan Keuangan
+          </div>
+        </Grid>
+        <Grid mt={6} item xs={12} sm={8} md={5}>
           <Box
             sx={{
               my: 8,
@@ -83,11 +94,8 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+            <Typography component="h1" variant="h5" style={{color: '#263237', fontWeight: '600'}}> 
+              RT 05 / RW 24
             </Typography>
             <Box sx={{ mt: 1 }}>
               <TextField
@@ -114,13 +122,14 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleLogin}
+                style={{backgroundColor: '#263237'}}
               >
-                Sign In
+                Masuk
               </Button>
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </div>
   );
 }
