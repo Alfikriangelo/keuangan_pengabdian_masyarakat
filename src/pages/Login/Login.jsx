@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import {useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../../authContext';
 import Image from '../../assets/login.png'
 
@@ -65,7 +58,7 @@ export default function Login() {
             backgroundImage: `url(${Image})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: '#E6FEED',
-            backgroundSize: '55%', // Ubah sesuai kebutuhan ukuran gambar
+            backgroundSize: '55%', 
             backgroundPosition: 'center',
            
           }}
@@ -94,7 +87,7 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            <Typography component="h1" variant="h5" style={{color: '#263237', fontWeight: '600'}}> 
+            <Typography style={{color: '#263237', fontWeight: '600', fontSize: 24}}> 
               RT 05 / RW 24
             </Typography>
             <Box sx={{ mt: 1 }}>
@@ -122,7 +115,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleLogin}
-                style={{backgroundColor: '#263237'}}
+                style={{backgroundColor: '#263237', textTransform: 'none', fontSize: 18 }}
               >
                 Masuk
               </Button>
