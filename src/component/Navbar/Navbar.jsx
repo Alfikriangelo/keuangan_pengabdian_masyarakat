@@ -1,24 +1,43 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
+import avatar from '../../assets/user.png';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const red = '#D32F2F';
+const white = '#F8FAE5';
+const green = '#337357';
 
-const red = '#A0153E'
 const theme = createTheme({
   palette: {
     red: {
       main: red,
     },
+    white:{
+      main: white,
+    },
+    green:{
+      main: green
+    }
   },
 });
 
-export default function Navbar() {
+
+const settings = ['Logout'];
+
+function Navbar() {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
@@ -31,29 +50,82 @@ export default function Navbar() {
     }
   };
 
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
   return (
     <ThemeProvider theme={theme}>
-      <AppBar sx={{ background: '#337357' }}>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            style={{color: 'white'}}
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'white'}} >
-            RT 05 / RW 24
-          </Typography>
-          <Button variant="outlined" color="red" sx={{ textTransform: 'none',}} onClick={handleLogoutClick}>
-            <Typography color='red'>
-              Keluar
+      <AppBar color='white'>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#"
+              style={{
+             
+                display: { xs: 'none', md: 'flex' },
+                color: '#337357',
+                textDecoration: 'none',
+                fontFamily: 'roboto',
+              
+              }}
+            >
+              Keuangan
             </Typography>
-          </Button>
-        </Toolbar>
+
+          
+            <Box sx={{ flexGrow: 1, display: {  md: 'flex' } }}>
+              
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src={avatar} />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  setting === 'Logout' ? (
+                    <MenuItem key={setting} onClick={() => { handleCloseUserMenu(); handleLogoutClick(); }}>
+                      <Typography textAlign="center" style={{color: '#D32F2F'}}>{setting}</Typography>
+                    </MenuItem>
+                  ) : (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  )
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
       </AppBar>
-    </ThemeProvider>
+    </ThemeProvider>  
   );
 }
+export default Navbar;

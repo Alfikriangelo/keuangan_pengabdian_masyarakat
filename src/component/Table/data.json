@@ -1,0 +1,45 @@
+[
+    {
+      "noRumah": 54,
+      "nama": "Alfikri",
+      "keamanan": "Lunas",
+      "kebersihan": "Lunas",
+      "pbb": "Lunas",
+      "history": [
+        {
+          "tanggal": "2020-01-05",
+          "penerima": "Ketua RT",
+          "kategori": "Kebersihan",
+          "status": "Lunas"
+        },
+        {
+          "tanggal": "2020-01-02",
+          "penerima": "Ketua RT",
+          "kategori": "Pbb",
+          "status": "Sebagian"
+        }
+      ]
+    },
+    {
+      "noRumah": 34,
+      "nama": "Budi",
+      "keamanan": "Sebagian",
+      "kebersihan": "Lunas",
+      "pbb": "Belum",
+      "history": [
+        {
+          "tanggal": "2020-01-05",
+          "penerima": "Bendahara",
+          "kategori": "Kebersihan",
+          "status": "Lunas"
+        },
+        {
+          "tanggal": "2020-01-02",
+          "penerima": "Ketua RT",
+          "kategori": "Pbb",
+          "status": "Sebagian"
+        }
+      ]
+    }
+  ]
+  

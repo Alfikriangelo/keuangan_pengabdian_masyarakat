@@ -10,8 +10,10 @@ import { useAuth } from '../../authContext';
 import Image from '../../assets/login.png'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const red = '#A0153E';
-const white = '#F8FAE5'
+const red = '#D32F2F';
+const white = '#F8FAE5';
+const green = '#337357';
+
 const theme = createTheme({
   palette: {
     red: {
@@ -19,6 +21,9 @@ const theme = createTheme({
     },
     white:{
       main: white,
+    },
+    green:{
+      main: green
     }
   },
 });
@@ -58,7 +63,7 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -108,6 +113,7 @@ export default function Login() {
                 label="Email"
                 name="email"
                 autoFocus
+                color="green"
                 onChange={(e) => setName(e.target.value)}
               />
               <TextField
@@ -116,6 +122,7 @@ export default function Login() {
                 fullWidth
                 label="Password"
                 type="password"
+                color="green"
                 onChange={(e) => setPassword(e.target.value)}
               />
 
@@ -133,6 +140,6 @@ export default function Login() {
           </Box>
         </Grid>
       </Grid>
-    </div>
+    </ThemeProvider>
   );
 }
