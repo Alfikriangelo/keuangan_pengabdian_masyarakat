@@ -50,7 +50,7 @@ export default function Login() {
         <CssBaseline />
         <Grid
           item
-          xs={false}
+          xs={12}
           sm={4}
           md={7}
           sx={{
@@ -63,31 +63,28 @@ export default function Login() {
            
           }}
         >
-          <div
-            style={{
-              position: 'absolute',
-              top: '14%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              color: '#434343',
-              fontSize: '32px',
-              fontWeight: 'bold',
-            }}
-          >
-            Pengolahan Keuangan
-          </div>
+        
         </Grid>
-        <Grid mt={6} item xs={12} sm={8} md={5}>
+        <Grid item xs={12} sm={8} md={5} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Box
             sx={{
-              my: 8,
               mx: 4,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              textAlign: 'center',
             }}
           >
-            <Typography style={{color: '#263237', fontWeight: '600', fontSize: 24}}> 
+            <Typography
+              style={{
+                color: '#263237',
+                fontSize: '28px',
+                fontWeight: 'bold',
+              }}
+            >
+              Pengolahan Keuangan
+            </Typography>
+            <Typography style={{color: '#263237', fontWeight: 'bold', fontSize: 24}}> 
               RT 05 / RW 24
             </Typography>
             <Box sx={{ mt: 1 }}>

@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Box mt={10} mr={3}>
+      <Box mt={12} mr={3} ml={3}>
         <Table />
       </Box>
     </div>
