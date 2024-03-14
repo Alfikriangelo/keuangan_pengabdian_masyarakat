@@ -8,7 +8,20 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { useAuth } from '../../authContext';
 import Image from '../../assets/login.png'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const red = '#A0153E';
+const white = '#F8FAE5'
+const theme = createTheme({
+  palette: {
+    red: {
+      main: red,
+    },
+    white:{
+      main: white,
+    }
+  },
+});
 
 export default function Login() {
   const { login } = useAuth();
@@ -77,14 +90,14 @@ export default function Login() {
           >
             <Typography
               style={{
-                color: '#263237',
+                color: '#337357',
                 fontSize: '28px',
                 fontWeight: 'bold',
               }}
             >
               Pengolahan Keuangan
             </Typography>
-            <Typography style={{color: '#263237', fontWeight: 'bold', fontSize: 24}}> 
+            <Typography style={{color: '#337357', fontWeight: 'bold', fontSize: 24}}> 
               RT 05 / RW 24
             </Typography>
             <Box sx={{ mt: 1 }}>
@@ -112,7 +125,7 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleLogin}
-                style={{backgroundColor: '#263237', textTransform: 'none', fontSize: 18 }}
+                style={{backgroundColor: '#337357', textTransform: 'none', fontSize: 18 }}
               >
                 Masuk
               </Button>

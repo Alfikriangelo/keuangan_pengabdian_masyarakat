@@ -6,6 +6,17 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+const red = '#A0153E'
+const theme = createTheme({
+  palette: {
+    red: {
+      main: red,
+    },
+  },
+});
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -21,24 +32,28 @@ export default function Navbar() {
   };
 
   return (
-    <div>
-      <AppBar sx={{ background: 'white' }}>
+    <ThemeProvider theme={theme}>
+      <AppBar sx={{ background: '#337357' }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            style={{color: '#263237'}}
+            style={{color: 'white'}}
             aria-label="menu"
             sx={{ mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} style={{color: '#263237'}} >
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, color: 'white'}} >
             RT 05 / RW 24
           </Typography>
-          <Button style={{color: '#B80000', textTransform: 'none' }} onClick={handleLogoutClick}>Keluar</Button>
+          <Button variant="outlined" color="red" sx={{ textTransform: 'none',}} onClick={handleLogoutClick}>
+            <Typography color='red'>
+              Keluar
+            </Typography>
+          </Button>
         </Toolbar>
       </AppBar>
-    </div>
+    </ThemeProvider>
   );
 }

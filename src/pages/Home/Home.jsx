@@ -7,8 +7,8 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Box mt={12} mr={3} ml={3}>
-        <Table />
+      <Box sx={{ mx: 4, my: 12 }}>
+        <Table /> 
       </Box>
     </div>
   )
