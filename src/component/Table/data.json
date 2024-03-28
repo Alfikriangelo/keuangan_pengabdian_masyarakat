@@ -4,9 +4,15 @@
     "nama": "Alfikri",
     "history": [
       {
-        "tanggal": "1111-11-11",
+        "tanggal_terima": "1111-11-11",
         "penerima": "Bendahara",
         "kategori": "Kebersihan",
+        "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Sumbangan",
         "status": "Lunas"
       }
     ]
@@ -16,21 +22,31 @@
     "nama": "Elisya",
     "history": [
       {
-        "tanggal": "1111-11-11",
+        "tanggal_terima": "1111-11-11",
         "penerima": "Bendahara",
         "kategori": "Kebersihan",
         "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Bendahara",
+        "kategori": "Keamanan",
+        "status": "Lunas"
       }
-    ]
+    ],
+    "kategori": "Keamanan",
+    "status": "Lunas",
+    "penerima": "Bendahara",
+    "tanggal_terima": "1111-11-11"
   },
   {
     "id": "3",
-    "nama": "asa",
+    "nama": "tes",
     "history": [
       {
-        "tanggal": "1111-11-11",
+        "tanggal_terima": "11111-11-11",
         "penerima": "Bendahara",
-        "kategori": "Kebersihan",
+        "kategori": "Keamanan",
         "status": "Lunas"
       }
     ]

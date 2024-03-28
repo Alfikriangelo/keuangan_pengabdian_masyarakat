@@ -6,16 +6,28 @@ import json
 app = Flask(__name__)
 CORS(app)
 
-FOLDER_DATA = r'C:/codingan/project/Keuangan_pengabdian_masyarakat/src/component/Table/'
+FOLDER_DATA = r'C:/codingan/github pribadi/Keuangan_pengabdian_masyarakat/src/component/Table'
 app.config['FOLDER_DATA'] = FOLDER_DATA
 
 def generate_new_id(existing_data):
-    # Temukan ID tertinggi yang ada dalam data
     max_id = max(int(entry["id"]) for entry in existing_data) if existing_data else 0
     
     # Buat ID baru dengan menambahkan 1 ke ID tertinggi
     new_id = str(max_id + 1)
     return new_id
+
+def find_data_by_id(id):
+    file_path = os.path.join(app.config['FOLDER_DATA'], 'data.json')
+
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            existing_data = json.load(file)
+        
+        for entry in existing_data:
+            if entry["id"] == id:
+                return entry
+        
+    return None
 
 def is_name_exists(existing_data, nama):
     # Periksa apakah nama sudah ada dalam data
@@ -57,7 +69,7 @@ def save_data():
         "id": new_id,
         "nama": data["nama"],
         "history": [{
-            "tanggal": data["tanggal_terima"],
+            "tanggal_terima": data["tanggal_terima"],
             "penerima": data["penerima"],
             "kategori": data["kategori"],
             "status": data["status"]
@@ -103,6 +115,46 @@ def delete_data(id):
     else:
         return jsonify({'error': 'Data file not found'}), 404
 
+
+@app.route('/get_data/<id>', methods=['GET'])
+def get_data(id):
+    data = find_data_by_id(id)
+    if data:
+        return jsonify(data)
+    else:
+        return jsonify({'error': 'Data not found'}), 404
+
+@app.route('/update_data/<id>', methods=['PUT'])
+def update_data(id):
+    data = request.get_json()
+
+    file_path = os.path.join(app.config['FOLDER_DATA'], 'data.json')
+
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            existing_data = json.load(file)
+        
+        for entry in existing_data:
+            if entry["id"] == id:
+                # Update data utama
+                entry.update(data)
+
+                # Tambahkan data baru ke dalam history
+                entry["history"].append({
+                    "tanggal_terima": data["tanggal_terima"],
+                    "penerima": data["penerima"],
+                    "kategori": data["kategori"],
+                    "status": data["status"]
+                })
+
+                break
+            
+        with open(file_path, 'w') as file:
+            json.dump(existing_data, file, indent=2)
+        
+        return jsonify({'message': f'Data with ID {id} has been updated'}), 200
+    else:
+        return jsonify({'error': 'Data file not found'}), 404
 
 
 if __name__ == '__main__': 
