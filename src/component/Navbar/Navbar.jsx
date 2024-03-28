@@ -110,7 +110,7 @@ function Navbar() {
                 {settings.map((setting) => (
                   setting === 'Logout' ? (
                     <MenuItem key={setting} onClick={() => { handleCloseUserMenu(); handleLogoutClick(); }}>
-                      <Typography textAlign="center" style={{color: '#D32F2F'}}>{setting}</Typography>
+                      <Typography textAlign="center" style={{color: '#D32F2F', marginRight:10, marginLeft: 10}}>{setting}</Typography>
                     </MenuItem>
                   ) : (
                     <MenuItem key={setting} onClick={handleCloseUserMenu}>
