@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -11,49 +12,52 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
 
-const red = '#A0153E';
+const red = '#FFCDD2';
 const white = '#F8FAE5';
-const green = '#337357  ';
+const green = '#337357';
 
 const theme = createTheme({
   palette: {
     red: {
       main: red,
     },
-    white:{
+    white: {
       main: white,
     },
-    green:{
+    green: {
       main: green
     }
   },
 });
 
 function Row(props) {
-  const { row } = props;
+  const { row, onDelete } = props;
   const [open, setOpen] = React.useState(false);
+
+  const getLatestStatus = (category) => {
+    const latestHistory = row.history.filter(item => item.kategori === category);
+    return latestHistory.length > 0 ? latestHistory[latestHistory.length - 1].status : 'Belum';
+  };
+
+  const handleDelete = () => {
+    onDelete(row.id);
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-          <TableCell>
-            <IconButton 
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell> 
           <TableCell component="th" scope="row">
-            {row.noRumah}
-          </TableCell>                                                                                
+            {row.id}
+          </TableCell>
           <TableCell component="th" scope="row">
             {row.nama}
           </TableCell>
@@ -61,40 +65,55 @@ function Row(props) {
             <Box
               sx={{
                 display: 'inline-block',
-                backgroundColor: row.keamanan === 'Lunas' ? '#C8E6C9' : row.keamanan === 'Sebagian' ? '#FFF9C4' : row.keamanan === 'Belum' ? '#FFCDD2' : 'transparent',
+                backgroundColor: getLatestStatus('Keamanan') === 'Lunas' ? '#C8E6C9' : getLatestStatus('Keamanan') === 'Sebagian' ? '#FFF9C4' : getLatestStatus('Keamanan') === 'Belum' ? '#FFCDD2' : 'transparent',
                 padding: '4px 8px',
                 borderRadius: '4px',
-                color: row.keamanan === 'Lunas' ? '#337357' : row.keamanan === 'Sebagian' ? '#F57F17' : row.keamanan === 'Belum' ? '#D32F2F' : 'inherit',
+                color: getLatestStatus('Keamanan') === 'Lunas' ? '#337357' : getLatestStatus('Keamanan') === 'Sebagian' ? '#F57F17' : getLatestStatus('Keamanan') === 'Belum' ? '#D32F2F' : 'inherit',
               }}
             >
-              {row.keamanan}
+              {getLatestStatus('Keamanan')}
             </Box>
           </TableCell>
           <TableCell align="left">
             <Box
               sx={{
                 display: 'inline-block',
-                backgroundColor: row.kebersihan === 'Lunas' ? '#C8E6C9' : row.kebersihan === 'Sebagian' ? '#FFF9C4' : row.kebersihan === 'Belum' ? '#FFCDD2' : 'transparent',
+                backgroundColor: getLatestStatus('Kebersihan') === 'Lunas' ? '#C8E6C9' : getLatestStatus('Kebersihan') === 'Sebagian' ? '#FFF9C4' : getLatestStatus('Kebersihan') === 'Belum' ? '#FFCDD2' : 'transparent',
                 padding: '4px 8px',
                 borderRadius: '4px',
-                color: row.kebersihan === 'Lunas' ? '#337357' : row.kebersihan === 'Sebagian' ? '#F57F17' : row.kebersihan === 'Belum' ? '#D32F2F' : 'inherit',
+                color: getLatestStatus('Kebersihan') === 'Lunas' ? '#337357' : getLatestStatus('Kebersihan') === 'Sebagian' ? '#F57F17' : getLatestStatus('Kebersihan') === 'Belum' ? '#D32F2F' : 'inherit',
               }}
             >
-              {row.kebersihan}
+              {getLatestStatus('Kebersihan')}
             </Box>
           </TableCell>
           <TableCell align="left">
             <Box
               sx={{
                 display: 'inline-block',
-                backgroundColor: row.pbb === 'Lunas' ? '#C8E6C9' : row.pbb === 'Sebagian' ? '#FFF9C4' : row.pbb === 'Belum' ? '#FFCDD2' : 'transparent',
+                backgroundColor: getLatestStatus('Sumbangan') === 'Lunas' ? '#C8E6C9' : getLatestStatus('Sumbangan') === 'Sebagian' ? '#FFF9C4' : getLatestStatus('Sumbangan') === 'Belum' ? '#FFCDD2' : 'transparent',
                 padding: '4px 8px',
                 borderRadius: '4px',
-                color: row.pbb === 'Lunas' ? '#337357' : row.pbb === 'Sebagian' ? '#F57F17' : row.pbb === 'Belum' ? '#D32F2F' : 'inherit',
+                color: getLatestStatus('Sumbangan') === 'Lunas' ? '#337357' : getLatestStatus('Sumbangan') === 'Sebagian' ? '#F57F17' : getLatestStatus('Sumbangan') === 'Belum' ? '#D32F2F' : 'inherit',
               }}
             >
-              {row.pbb}
+              {getLatestStatus('Sumbangan')}
             </Box>
+          </TableCell>
+          <TableCell style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+            <IconButton>
+              <EditIcon color='green' />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon color='error' onClick={handleDelete} />
+            </IconButton>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
           </TableCell>
         </TableRow>
         <TableRow>
@@ -102,15 +121,15 @@ function Row(props) {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                  Histori
+                  Riwayat
                 </Typography>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
                       <TableCell>Tanggal</TableCell>
                       <TableCell>Penerima</TableCell>
-                      <TableCell align="right">Kategori</TableCell>
-                      <TableCell align="right">Status</TableCell>
+                      <TableCell align="left">Kategori</TableCell>
+                      <TableCell align="left">Status</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -120,8 +139,8 @@ function Row(props) {
                           {historyRow.tanggal}
                         </TableCell>
                         <TableCell>{historyRow.penerima}</TableCell>
-                        <TableCell align="right">{historyRow.kategori}</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="left">{historyRow.kategori}</TableCell>
+                        <TableCell align="left">
                           {historyRow.status}
                         </TableCell>
                       </TableRow>
@@ -139,9 +158,8 @@ function Row(props) {
 
 Row.propTypes = {
   row: PropTypes.shape({
-    keamanan: PropTypes.string.isRequired,
-    pbb: PropTypes.string.isRequired,
-    kebersihan: PropTypes.string.isRequired,
+    nama: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
     history: PropTypes.arrayOf(
       PropTypes.shape({
         kategori: PropTypes.string.isRequired,
@@ -150,36 +168,49 @@ Row.propTypes = {
         status: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    nama: PropTypes.string.isRequired,
   }).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
-export default function table({ jsonData }) {
+export default function TableComponent({ jsonData }) {
+  const navigate = useNavigate();
+  const handleTambahDataButton = () => {
+    navigate('/tambah-data');
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/delete_data/${id}`);
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  };
+  
+
   return (
-      <ThemeProvider theme={theme}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-          <div></div>
-          <Button variant="outlined" style={{textTransform: 'none'}} color='green' >Tambah</Button>
-        </div>
-        <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
-            <TableHead style={{backgroundColor: '#337357'}}>
-              <TableRow>
-                <TableCell />
-                <TableCell style={{color: 'white'}}>No Rumah</TableCell>
-                <TableCell style={{color: 'white'}}>Nama</TableCell>
-                <TableCell style={{color: 'white'}}>Keamanan</TableCell>
-                <TableCell style={{color: 'white'}}>Kebersihan</TableCell>
-                <TableCell style={{color: 'white'}}>PBB</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {jsonData.map((row, index) => (
-                <Row key={index} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-    </ThemeProvider> 
+    <ThemeProvider theme={theme}>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginBottom: "10px" }}>
+        <Button variant="outlined" style={{ textTransform: 'none' }} color='green' onClick={handleTambahDataButton}>Tambah</Button>
+      </div>
+      <TableContainer sx={{ mt: 2 }} component={Paper}>
+        <Table aria-label="collapsible table">
+          <TableHead style={{ backgroundColor: '#337357' }}>
+            <TableRow>
+              <TableCell style={{ color: 'white' }}>No</TableCell>
+              <TableCell style={{ color: 'white' }}>Nama</TableCell>
+              <TableCell style={{ color: 'white' }}>Keamanan</TableCell>
+              <TableCell style={{ color: 'white' }}>Kebersihan</TableCell>
+              <TableCell style={{ color: 'white' }}>Sumbangan</TableCell>
+              <TableCell />
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {jsonData.map((row, index) => (
+              <Row key={index} row={row} onDelete={handleDelete} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </ThemeProvider>
   );
 }

@@ -71,12 +71,10 @@ function Navbar() {
               component="a"
               href="#"
               style={{
-             
                 display: { xs: 'none', md: 'flex' },
                 color: '#337357',
                 textDecoration: 'none',
                 fontFamily: 'roboto',
-              
               }}
             >
               Keuangan
