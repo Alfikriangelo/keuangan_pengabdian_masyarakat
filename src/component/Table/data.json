@@ -5,48 +5,77 @@
     "history": [
       {
         "tanggal_terima": "1111-11-11",
-        "penerima": "Bendahara",
-        "kategori": "Kebersihan",
+        "penerima": "Ketua RT",
+        "kategori": "Keamanan",
+        "nominal": 40000,
         "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Bendahara",
+        "kategori": "",
+        "nominal": 40000,
+        "status": ""
       },
       {
         "tanggal_terima": "1111-11-11",
         "penerima": "Ketua RT",
         "kategori": "Sumbangan",
+        "nominal": 40000,
+        "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Keamanan",
+        "nominal": 10000,
+        "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Keamanan",
+        "nominal": 20000,
+        "status": "Sebagian"
+      },
+      {
+        "tanggal_terima": "2024-02-11",
+        "penerima": "Bendahara",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
         "status": "Lunas"
       }
     ]
   },
   {
     "id": "2",
-    "nama": "Elisya",
+    "nama": "Padil",
     "history": [
       {
         "tanggal_terima": "1111-11-11",
-        "penerima": "Bendahara",
-        "kategori": "Kebersihan",
-        "status": "Lunas"
-      },
-      {
-        "tanggal_terima": "1111-11-11",
-        "penerima": "Bendahara",
+        "penerima": "Ketua RT",
         "kategori": "Keamanan",
+        "nominal": 10000,
         "status": "Lunas"
       }
-    ],
-    "kategori": "Keamanan",
-    "status": "Lunas",
-    "penerima": "Bendahara",
-    "tanggal_terima": "1111-11-11"
+    ]
   },
   {
     "id": "3",
     "nama": "tes",
     "history": [
       {
-        "tanggal_terima": "11111-11-11",
-        "penerima": "Bendahara",
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Ketua RT",
         "kategori": "Keamanan",
+        "nominal": 1000,
+        "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Bendahara",
+        "kategori": "Sumbangan",
+        "nominal": 20000,
         "status": "Lunas"
       }
     ]

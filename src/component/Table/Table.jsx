@@ -229,7 +229,7 @@ function Row(props) {
                     {row.history.map((historyRow) => (
                       <TableRow key={historyRow.tanggal}>
                         <TableCell component="th" scope="row">
-                          {historyRow.tanggal}
+                          {historyRow.tanggal_terima}
                         </TableCell>
                         <TableCell>{historyRow.penerima}</TableCell>
                         <TableCell align="left">{historyRow.kategori}</TableCell>

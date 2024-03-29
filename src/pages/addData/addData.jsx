@@ -52,8 +52,8 @@ const AddData = () => {
   const [statusInputValue, setStatusInputValue] = useState('');
   const [selectedPenerima, setSelectedPenerima] = useState(null)
   const [penerimaInputValue, setPenerimaInputValue] = useState('');
-  const [tanggalTerima, setTanggalPenerima] = useState("")
-
+  const [tanggalTerima, setTanggalPenerima] = useState("");
+  const [nominal, setNominal] = useState(0);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,6 +61,7 @@ const AddData = () => {
     const dataToSend = {
       nama,
       kategori: selectedKategori ? selectedKategori.label : '',
+      nominal: parseInt(nominal),
       status: selectedStatus ? selectedStatus.label : '',
       penerima: selectedPenerima ? selectedPenerima.label : '',
       tanggal_terima: tanggalTerima
@@ -68,7 +69,6 @@ const AddData = () => {
 
     try {
       await axios.post('http://localhost:5000/save_data', dataToSend);
-
       navigate('/home')
     } catch (error) {
       console.error('Error:', error);
@@ -90,7 +90,6 @@ const AddData = () => {
           <Box style={{ display: 'flex', justifyContent: 'space-between'}} >
             <TextField 
               margin="normal"
-              required
               label="Nama"
               name="nama"
               autoFocus
@@ -137,34 +136,19 @@ const AddData = () => {
             }}
           />
 
-
-            <Autocomplete
-              disablePortal
-              id="status"
-              options={status}
-              sx={{ 
-                width: 350,
-                marginTop: 2,
-                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#337357', 
-                },
-              }}
-              renderInput={(params) => <TextField {...params} label="Status" />}
-              value={selectedStatus}
-              onChange={(event, newStatus) => {
-                setSelectedStatus(newStatus);
-              }}
-              inputValue={statusInputValue}
-              onInputChange={(event, newStatusInputValue) => {
-                setStatusInputValue(newStatusInputValue);
-              }}
-            />
+          <TextField 
+            margin="normal"
+            required
+            label="Nominal"
+            name="nonimal"
+            autoFocus
+            color="green"
+            value={nominal}
+            onChange={(e) => {
+              setNominal(e.target.value);
+            }}
+            sx={{width: 350}}
+          />
             
           </Box>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -212,7 +196,7 @@ const AddData = () => {
                 outline: 'none',
                 transition: 'border-color 0.2s',
                 fontFamily: 'Roboto, sans-serif',
-                color: '#337357' 
+                color: 'black' 
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = '#337357';
@@ -221,6 +205,35 @@ const AddData = () => {
               onBlur={(e) => {
                 e.target.style.borderColor = '#ccc';
               }} 
+            />
+          </Box>
+          <Box>
+            <Autocomplete
+              disablePortal
+              id="status"
+              options={status}
+              sx={{ 
+                width: 350,
+                marginTop: 2,
+                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#337357',
+                },
+                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#337357',
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#337357', 
+                },
+              }}
+              renderInput={(params) => <TextField {...params} label="Status" />}
+              value={selectedStatus}
+              onChange={(event, newStatus) => {
+                setSelectedStatus(newStatus);
+              }}
+              inputValue={statusInputValue}
+              onInputChange={(event, newStatusInputValue) => {
+                setStatusInputValue(newStatusInputValue);
+              }}
             />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>

@@ -53,6 +53,7 @@ const UpdateData = () => {
   const [selectedPenerima, setSelectedPenerima] = useState(null)
   const [penerimaInputValue, setPenerimaInputValue] = useState('');
   const [tanggalTerima, setTanggalPenerima] = useState("")
+  const [nominal, setNominal] = useState(0);
 
   useEffect(() => {
     fetchData();
@@ -64,8 +65,9 @@ const UpdateData = () => {
       const data = response.data;
       setNama(data.nama || "");
       setSelectedKategori(data.kategori || null);
+      setNominal(data.nominal || 0);
       setSelectedStatus(data.status || null);
-      setSelectedPenerima(data.penerima || "");
+      setSelectedPenerima(data.penerima || null);
       setTanggalPenerima(data.tanggal_terima || "");
     } catch (error) {
       console.error('Error:', error);
@@ -80,6 +82,7 @@ const UpdateData = () => {
       id,
       nama,
       kategori: selectedKategori ? selectedKategori.label : '',
+      nominal: parseInt(nominal),
       status: selectedStatus ? selectedStatus.label : '',
       penerima: selectedPenerima ? selectedPenerima.label : '',
       tanggal_terima: tanggalTerima
@@ -119,7 +122,7 @@ const UpdateData = () => {
                 setNama(e.target.value);
               }}
               sx={{width: 350}}
-              />
+            />
           </Box>
         </Box>
 
@@ -156,34 +159,19 @@ const UpdateData = () => {
             }}
           />
 
-
-            <Autocomplete
-              disablePortal
-              id="status"
-              options={status}
-              sx={{ 
-                width: 350,
-                marginTop: 2,
-                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#337357', 
-                },
+            <TextField 
+              margin="normal"
+              label="Nominal"
+              name="nominal"
+              autoFocus
+              color="green"
+              value={nominal}
+              onChange={(e) => {
+                setNominal(e.target.value);
               }}
-              renderInput={(params) => <TextField {...params} label="Status" />}
-              value={selectedStatus}
-              onChange={(event, newStatus) => {
-                setSelectedStatus(newStatus);
-              }}
-              inputValue={statusInputValue}
-              onInputChange={(event, newStatusInputValue) => {
-                setStatusInputValue(newStatusInputValue);
-              }}
+              sx={{width: 350}}
             />
+
             
           </Box>
           <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -214,6 +202,7 @@ const UpdateData = () => {
                 setPenerimaInputValue(newPenerimaInputValue);
               }}
             />
+            
             <input
               type="date"
               name="tanggal_terima"
@@ -241,6 +230,37 @@ const UpdateData = () => {
                 e.target.style.borderColor = '#ccc';
               }} 
             />
+            
+          </Box>
+
+          <Box>
+            <Autocomplete
+              disablePortal
+              id="status"
+              options={status}
+              sx={{ 
+                width: 350,
+                marginTop: 2,
+                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#337357',
+                },
+                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#337357',
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#337357', 
+                },
+              }}
+              renderInput={(params) => <TextField {...params} label="Status" />}
+              value={selectedStatus}
+              onChange={(event, newStatus) => {
+                setSelectedStatus(newStatus);
+              }}
+              inputValue={statusInputValue}
+              onInputChange={(event, newStatusInputValue) => {
+                setStatusInputValue(newStatusInputValue);
+              }}
+            />      
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
             <BackButton />

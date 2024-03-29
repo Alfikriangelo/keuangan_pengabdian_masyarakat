@@ -72,13 +72,13 @@ def save_data():
             "tanggal_terima": data["tanggal_terima"],
             "penerima": data["penerima"],
             "kategori": data["kategori"],
+            "nominal": data["nominal"],
             "status": data["status"]
-        }]
+        }]  
     }
 
     existing_data.append(new_entry)
 
-    # Tulis kembali ke file
     with open(file_path, 'w') as file:
         json.dump(existing_data, file, indent=2)
 
@@ -102,7 +102,6 @@ def delete_data(id):
         if index_to_delete is not None:
             del existing_data[index_to_delete]
             
-            # Update ulang ID agar berurut
             for i, entry in enumerate(existing_data):
                 entry["id"] = str(i + 1)
             
@@ -136,19 +135,17 @@ def update_data(id):
         
         for entry in existing_data:
             if entry["id"] == id:
-                # Update data utama
-                entry.update(data)
+                # Memperbarui bidang yang ada sesuai permintaan klien
+                for key in data:
+                    if key in entry:
+                        entry[key] = data[key]
 
-                # Tambahkan data baru ke dalam history
-                entry["history"].append({
-                    "tanggal_terima": data["tanggal_terima"],
-                    "penerima": data["penerima"],
-                    "kategori": data["kategori"],
-                    "status": data["status"]
-                })
+                # Tambahkan riwayat perubahan
+                history_entry = {key: data.get(key, entry.get(key, "")) for key in ["tanggal_terima", "penerima", "kategori", "nominal", "status"]}
+                entry["history"].append(history_entry)
 
                 break
-            
+
         with open(file_path, 'w') as file:
             json.dump(existing_data, file, indent=2)
         
