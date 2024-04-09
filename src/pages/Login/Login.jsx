@@ -50,7 +50,7 @@ export default function Login() {
         console.log('Login berhasil', userData);
         setError(null);
         login();
-        navigate('/home');
+        navigate('/rekap');
       } else {
         console.error('Login gagal');
         const errorData = await response.json();

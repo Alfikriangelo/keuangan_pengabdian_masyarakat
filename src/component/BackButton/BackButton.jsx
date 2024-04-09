@@ -24,7 +24,7 @@ const theme = createTheme({
 const BackButton = () => {
     const navigate = useNavigate();
     const handleBack = () => {
-        navigate('/home')
+        navigate('/rekap')
     }
   return (
     <ThemeProvider theme={theme}>

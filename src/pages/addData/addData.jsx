@@ -69,7 +69,7 @@ const AddData = () => {
 
     try {
       await axios.post('http://localhost:5000/save_data', dataToSend);
-      navigate('/home')
+      navigate('/rekap')
     } catch (error) {
       console.error('Error:', error);
       alert('Gagal menyimpan data. Periksa apakah nama sudah ada');

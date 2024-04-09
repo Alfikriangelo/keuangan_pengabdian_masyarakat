@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -23,6 +23,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { alpha, styled } from '@mui/material/styles';
+import TablePagination from '@mui/material/TablePagination';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -100,6 +101,19 @@ function Row(props) {
 
   const handleDelete = () => {
     onDelete(row.id);
+  };
+
+  const renderAdditionalInfo = (historyRow) => {
+    const additionalInfo = [];
+    if (historyRow.kategori === 'Keamanan' && historyRow.nominal > 30000) {
+      const lebihan = historyRow.nominal - 30000
+      additionalInfo.push('Nominal Keamanan: Rp30000' +  ` + Rp${lebihan}`);
+    }
+    if (historyRow.kategori === 'Kebersihan' && historyRow.nominal > 50000) {
+      const lebihan = historyRow.nominal - 50000
+      additionalInfo.push('Nominal Kebersihan: Rp50000' +  ` + Rp${lebihan}`);
+    }
+    return additionalInfo.join(', ');
   };
 
   return (
@@ -223,6 +237,7 @@ function Row(props) {
                       <TableCell>Penerima</TableCell>
                       <TableCell align="left">Kategori</TableCell>
                       <TableCell align="left">Status</TableCell>
+                      <TableCell align="left">Info Tambahan</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -234,6 +249,7 @@ function Row(props) {
                         <TableCell>{historyRow.penerima}</TableCell>
                         <TableCell align="left">{historyRow.kategori}</TableCell>
                         <TableCell align="left">{historyRow.status}</TableCell>
+                        <TableCell align="left">{renderAdditionalInfo(historyRow)}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -257,6 +273,7 @@ Row.propTypes = {
         penerima: PropTypes.string.isRequired,
         tanggal: PropTypes.string.isRequired,
         status: PropTypes.string.isRequired,
+        nominal: PropTypes.number.isRequired,
       })
     ).isRequired,
   }).isRequired,
@@ -266,6 +283,22 @@ Row.propTypes = {
 export default function TableComponent({ jsonData }) {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalNominal, setTotalNominal] = useState(0);
+
+  useEffect(() => {
+    let total = 0;
+    jsonData.forEach((row) => {
+      row.history.forEach((entry) => {
+        total += entry.nominal;
+      });
+    });
+    setTotalNominal(total);
+  }, [jsonData, searchTerm]);
+
+
+
 
   const handleTambahDataButton = () => {
     navigate('/tambah-data');
@@ -285,60 +318,96 @@ export default function TableComponent({ jsonData }) {
     );
   });
 
+  const pageCount = Math.ceil(filteredData.length / rowsPerPage);
+
+  const slicedData = filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // Atur kembali page ke 0 saat perubahan rowsPerPage
+  };
+  
+  const handleSearchTermChange = (e) => {
+    setSearchTerm(e.target.value);
+    setPage(0); // Atur kembali page ke 0 saat terjadi perubahan pencarian
+  };
+  
+
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-        <Typography
-          variant="h4"
-          noWrap
-          component="a"
-          fontWeight="bold"
-          style={{
-            display: { xs: 'none', md: 'flex' },
-            color: '#337357',
-            textDecoration: 'none',
-            fontFamily: 'roboto',
-          }}
-        >
-          Tabel Rekap data
-        </Typography>
+      <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-          <Toolbar>
+          <Typography
+            variant="h4"
+            noWrap
+            component="a"
+            fontWeight="bold"
+            style={{
+              display: { xs: 'none', md: 'flex' },
+              color: '#337357',
+              textDecoration: 'none',
+              fontFamily: 'roboto',
+            }}
+          >
+            Tabel Rekap data
+          </Typography>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <Toolbar>
             <Search style={{ backgroundColor: '#C8E6C9', color: 'black' }}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
                 placeholder="Cari…"
                 inputProps={{ 'aria-label': 'search' }}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchTermChange}
               />
-            </Search>
-          </Toolbar>
-          <Button variant="outlined" style={{ textTransform: 'none' }} color="green" onClick={handleTambahDataButton}>
-            Tambah
-          </Button>
+              </Search>
+            </Toolbar>
+            <Button variant="outlined" style={{ textTransform: 'none' }} color="green" onClick={handleTambahDataButton}>
+              Tambah
+            </Button>
+          </div>
+        </div>
+        <TableContainer sx={{ mt: 2 }} component={Paper}>
+          <Table aria-label="collapsible table">
+            <TableHead style={{ backgroundColor: '#337357' }}>
+              <TableRow>
+                <TableCell style={{ color: 'white' }}>No</TableCell>
+                <TableCell style={{ color: 'white' }}>Nama</TableCell>
+                <TableCell style={{ color: 'white' }}>Keamanan</TableCell>
+                <TableCell style={{ color: 'white' }}>Kebersihan</TableCell>
+                <TableCell style={{ color: 'white' }}>Sumbangan</TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {slicedData.map((row, index) => (
+                <Row key={index} row={row} onDelete={handleDelete} />
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={filteredData.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(e, newPage) => setPage(newPage)}
+            onRowsPerPageChange={(e) => {
+              setRowsPerPage(parseInt(e.target.value, 10));
+              setPage(0);
+            }}
+          />
+        </TableContainer>
+        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
+          <Typography style={{ color: '#337357'}} fontWeight="bold">Total : Rp{totalNominal}</Typography>
         </div>
       </div>
-      <TableContainer sx={{ mt: 2 }} component={Paper}>
-        <Table aria-label="collapsible table">
-          <TableHead style={{ backgroundColor: '#337357' }}>
-            <TableRow>
-              <TableCell style={{ color: 'white' }}>No</TableCell>
-              <TableCell style={{ color: 'white' }}>Nama</TableCell>
-              <TableCell style={{ color: 'white' }}>Keamanan</TableCell>
-              <TableCell style={{ color: 'white' }}>Kebersihan</TableCell>
-              <TableCell style={{ color: 'white' }}>Sumbangan</TableCell>
-              <TableCell />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredData.map((row, index) => (
-              <Row key={index} row={row} onDelete={handleDelete} />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     </ThemeProvider>
   );
 }

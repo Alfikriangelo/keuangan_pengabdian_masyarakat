@@ -91,7 +91,7 @@ const UpdateData = () => {
     try {
       await axios.put(`http://localhost:5000/update_data/${id}`, dataToUpdate);
 
-      navigate('/home')
+      navigate('/rekap')
     } catch (error) {
       console.error('Error:', error);
       alert('Gagal memperbarui data.');

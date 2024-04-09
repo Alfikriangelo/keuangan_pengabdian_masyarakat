@@ -1,47 +1,19 @@
 [
   {
     "id": "1",
-    "nama": "Alfikri",
+    "nama": "Padil",
     "history": [
       {
         "tanggal_terima": "1111-11-11",
         "penerima": "Ketua RT",
         "kategori": "Keamanan",
-        "nominal": 40000,
+        "nominal": 100000,
         "status": "Lunas"
-      },
-      {
-        "tanggal_terima": "1111-11-11",
-        "penerima": "Bendahara",
-        "kategori": "",
-        "nominal": 40000,
-        "status": ""
       },
       {
         "tanggal_terima": "1111-11-11",
         "penerima": "Ketua RT",
         "kategori": "Sumbangan",
-        "nominal": 40000,
-        "status": "Lunas"
-      },
-      {
-        "tanggal_terima": "1111-11-11",
-        "penerima": "Ketua RT",
-        "kategori": "Keamanan",
-        "nominal": 10000,
-        "status": "Lunas"
-      },
-      {
-        "tanggal_terima": "1111-11-11",
-        "penerima": "Ketua RT",
-        "kategori": "Keamanan",
-        "nominal": 20000,
-        "status": "Sebagian"
-      },
-      {
-        "tanggal_terima": "2024-02-11",
-        "penerima": "Bendahara",
-        "kategori": "Kebersihan",
         "nominal": 100000,
         "status": "Lunas"
       }
@@ -49,33 +21,170 @@
   },
   {
     "id": "2",
-    "nama": "Padil",
+    "nama": "tes",
     "history": [
       {
-        "tanggal_terima": "1111-11-11",
+        "tanggal_terima": "11111-11-11",
         "penerima": "Ketua RT",
-        "kategori": "Keamanan",
-        "nominal": 10000,
+        "kategori": "Kebersihan",
+        "nominal": 1200000,
         "status": "Lunas"
       }
     ]
   },
   {
     "id": "3",
-    "nama": "tes",
+    "nama": "Alfikri2",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "nama": "Alfikri3",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "nama": "Alfikri4",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "6",
+    "nama": "Alfikri5",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "7",
+    "nama": "Alfikri6",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "8",
+    "nama": "Alfikri7",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "9",
+    "nama": "Alfikri8",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "nama": "Alfikri9",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "nama": "Alfikri10",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "12",
+    "nama": "Alfikri12",
+    "history": [
+      {
+        "tanggal_terima": "111111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Kebersihan",
+        "nominal": 100000,
+        "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "11111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Keamanan",
+        "nominal": 12000,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "13",
+    "nama": "sayan",
     "history": [
       {
         "tanggal_terima": "1111-11-11",
-        "penerima": "Ketua RT",
+        "penerima": "Bendahara",
         "kategori": "Keamanan",
-        "nominal": 1000,
+        "nominal": 130000,
         "status": "Lunas"
       },
       {
         "tanggal_terima": "1111-11-11",
         "penerima": "Bendahara",
-        "kategori": "Sumbangan",
-        "nominal": 20000,
+        "kategori": "Kebersihan",
+        "nominal": 60000,
         "status": "Lunas"
       }
     ]

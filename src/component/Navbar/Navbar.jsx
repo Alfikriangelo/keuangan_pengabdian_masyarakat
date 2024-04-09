@@ -12,6 +12,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import avatar from '../../assets/user.png';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
 
 const red = '#D32F2F';
 const white = '#F8FAE5';
@@ -35,10 +37,17 @@ const theme = createTheme({
 const settings = ['Logout'];
 
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const navigate = useNavigate();
+
+  const handlePagePengeluaran= () => {
+    navigate('/pengeluaran');
+  }
+
+  const handlePageRekap= () => {
+    navigate('/rekap');
+  }
 
   const handleLogoutClick = () => {
     const isAuthenticated = true; 
@@ -46,7 +55,7 @@ function Navbar() {
     if (isAuthenticated) {
       navigate('/');
     } else {
-      navigate('/home');
+      navigate('/rekap');
     }
   };
 
@@ -80,11 +89,30 @@ function Navbar() {
               Keuangan
             </Typography>
 
-          
             <Box sx={{ flexGrow: 1, display: {  md: 'flex' } }}>
               
             </Box>
+            <Button color='green' variant="text" onClick={handlePagePengeluaran} style={{
+                display: { xs: 'none', md: 'flex' },
+                color: '#337357',
+                textDecoration: 'none',
+                fontFamily: 'roboto',
+                textTransform: 'none',
+                fontSize: 17
+              }}>
+              Pengeluaran
+            </Button>
 
+            <Button color='green' variant="text" sx={{marginX: 5}} onClick={handlePageRekap}style={{
+                display: { xs: 'none', md: 'flex' },
+                color: '#337357',
+                textDecoration: 'none',
+                fontFamily: 'roboto',
+                textTransform: 'none',
+                fontSize: 17
+              }}>
+              Rekap
+            </Button>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
