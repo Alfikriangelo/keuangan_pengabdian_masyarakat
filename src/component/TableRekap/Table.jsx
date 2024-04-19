@@ -55,7 +55,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
@@ -298,15 +297,13 @@ export default function TableComponent({ jsonData }) {
   }, [jsonData, searchTerm]);
 
 
-
-
   const handleTambahDataButton = () => {
-    navigate('/tambah-data');
+    navigate('/tambah-data-rekap');
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/delete_data/${id}`);
+      await axios.delete(`http://localhost:5000/delete_data_rekap/${id}`);
     } catch (error) {
       console.error('Error deleting data:', error);
     }
@@ -318,22 +315,11 @@ export default function TableComponent({ jsonData }) {
     );
   });
 
-  const pageCount = Math.ceil(filteredData.length / rowsPerPage);
-
   const slicedData = filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // Atur kembali page ke 0 saat perubahan rowsPerPage
-  };
   
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
-    setPage(0); // Atur kembali page ke 0 saat terjadi perubahan pencarian
+    setPage(0); 
   };
   
 
@@ -357,7 +343,7 @@ export default function TableComponent({ jsonData }) {
           </Typography>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
             <Toolbar>
-            <Search style={{ backgroundColor: '#C8E6C9', color: 'black' }}>
+              <Search style={{ backgroundColor: '#C8E6C9', color: 'black' }}>
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
@@ -405,7 +391,7 @@ export default function TableComponent({ jsonData }) {
           />
         </TableContainer>
         <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'flex-end' }}>
-          <Typography style={{ color: '#337357'}} fontWeight="bold">Total : Rp{totalNominal}</Typography>
+          <Typography style={{ color: '#337357'}} fontWeight="bold">Total : Rp{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalNominal)}</Typography>
         </div>
       </div>
     </ThemeProvider>

@@ -7,12 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setAuthenticated] = useState(false);
 
   const login = () => {
-    // Implementasi login sesuai kebutuhan
     setAuthenticated(true);
   };
 
   const logout = () => {
-    // Implementasi logout sesuai kebutuhan
     setAuthenticated(false);
   };
 

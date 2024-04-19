@@ -16,7 +16,7 @@ def generate_new_id(existing_data):
     new_id = str(max_id + 1)
     return new_id
 
-def find_data_by_id(id):
+def find_data_rekap_by_id(id):
     file_path = os.path.join(app.config['FOLDER_DATA'], 'data.json')
 
     if os.path.exists(file_path):
@@ -45,8 +45,8 @@ def login():
     else:
         return jsonify({'error': 'Login failed. Check your username and password.'}), 401
     
-@app.route('/save_data', methods=['POST'])
-def save_data():
+@app.route('/save_data_rekap', methods=['POST'])
+def save_data_rekap():
     data = request.get_json()
 
     file_path = os.path.join(app.config['FOLDER_DATA'], 'data.json')
@@ -117,7 +117,7 @@ def delete_data(id):
 
 @app.route('/get_data/<id>', methods=['GET'])
 def get_data(id):
-    data = find_data_by_id(id)
+    data = find_data_rekap_by_id(id)
     if data:
         return jsonify(data)
     else:

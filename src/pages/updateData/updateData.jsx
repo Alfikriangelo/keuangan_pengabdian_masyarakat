@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Navbar from '../../component/Navbar/Navbar'
-import BackButton from '../../component/BackButton/BackButton'
+import BackButtonRekap from '../../component/BackButtonRekap/BackButtonRekap'
 import { Autocomplete, Box, Button, Typography } from '@mui/material'
 import TextField from '@mui/material/TextField';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import jsonDataPemasukan from '../../component/TableRekap/data.json';
+import jsonDataPengeluaran from '../../component/TablePengeluaran/data.json';
+
+
 
 const red = '#D32F2F';
 const white = '#F8FAE5';
@@ -54,6 +58,14 @@ const UpdateData = () => {
   const [penerimaInputValue, setPenerimaInputValue] = useState('');
   const [tanggalTerima, setTanggalPenerima] = useState("")
   const [nominal, setNominal] = useState(0);
+  const [dataPemasukan, setDataPemasukan] = useState(null);
+  const [dataPengeluaran, setDataPengeluaran] = useState(null);
+
+  useEffect(() => {
+    setDataPemasukan(jsonDataPemasukan);
+    setDataPengeluaran(jsonDataPengeluaran);
+  }, []);
+
 
   useEffect(() => {
     fetchData();
@@ -61,7 +73,7 @@ const UpdateData = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/get_data/${id}`);
+      const response = await axios.get(`http://localhost:5000/get_data_rekap/${id}`);
       const data = response.data;
       setNama(data.nama || "");
       setSelectedKategori(data.kategori || null);
@@ -89,7 +101,7 @@ const UpdateData = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/update_data/${id}`, dataToUpdate);
+      await axios.put(`http://localhost:5000/update_data_rekap/${id}`, dataToUpdate);
 
       navigate('/rekap')
     } catch (error) {
@@ -101,7 +113,7 @@ const UpdateData = () => {
   return (
     <ThemeProvider theme={theme}>
       <div style={{marginBottom: 80}}>
-        <Navbar />
+      <Navbar jsonDataPemasukan={dataPemasukan} jsonDataPengeluaran={dataPengeluaran} />
         <Typography mt={13} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 30, fontWeight:'bold', color: '#337357'}}>
           Perbarui Data Keuangan
         </Typography>
@@ -263,7 +275,7 @@ const UpdateData = () => {
             />      
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
-            <BackButton />
+            <BackButtonRekap />
             <Button variant='contained' style={{textTransform: 'none', color: 'white', marginLeft: 10}} color='green' onClick={handleSubmit}>Kirim</Button>
           </Box>
         </Box>

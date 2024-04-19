@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useRef, useState } from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -34,12 +34,35 @@ const theme = createTheme({
 });
 
 
-const settings = ['Logout'];
+const settings = ['Keluar'];
 
-function Navbar() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+function Navbar({jsonDataPemasukan, jsonDataPengeluaran}) {
   const navigate = useNavigate();
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [totalNominal, setTotalNominal] = useState(0);
+  const [totalPengeluaran, setTotalPengeluaran] = useState(0);
+
+  useEffect(() => {
+    if (jsonDataPemasukan && jsonDataPengeluaran) {
+      let totalPemasukan = 0;
+      jsonDataPemasukan.forEach((row) => {
+        if (row.history) {
+          row.history.forEach((entry) => {
+            totalPemasukan += entry.nominal;
+          });
+        }
+      });
+  
+      let totalPengeluaran = 0;
+      jsonDataPengeluaran.forEach((row) => {
+        totalPengeluaran += row.nominal;
+      });
+      setTotalPengeluaran(totalPengeluaran);
+      setTotalNominal(totalPemasukan);
+    }
+  }, [jsonDataPemasukan, jsonDataPengeluaran]);
+
+  let totalKasRT = totalNominal - totalPengeluaran;
 
   const handlePagePengeluaran= () => {
     navigate('/pengeluaran');
@@ -113,6 +136,7 @@ function Navbar() {
               }}>
               Rekap
             </Button>
+            <Typography color={green} marginRight={5}>{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(totalKasRT)}</Typography>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -136,7 +160,7 @@ function Navbar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  setting === 'Logout' ? (
+                  setting === 'Keluar' ? (
                     <MenuItem key={setting} onClick={() => { handleCloseUserMenu(); handleLogoutClick(); }}>
                       <Typography textAlign="center" style={{color: '#D32F2F', marginRight:10, marginLeft: 10}}>{setting}</Typography>
                     </MenuItem>

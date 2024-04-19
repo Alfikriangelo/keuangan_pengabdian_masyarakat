@@ -21,7 +21,7 @@ const theme = createTheme({
   },
 });
 
-const BackButton = () => {
+const BackButtonRekap = () => {
     const navigate = useNavigate();
     const handleBack = () => {
         navigate('/rekap')
@@ -33,4 +33,4 @@ const BackButton = () => {
   )
 }
 
-export default BackButton
+export default BackButtonRekap
