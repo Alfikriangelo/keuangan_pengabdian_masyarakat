@@ -1,76 +1,76 @@
-import { useEffect, useRef, useState } from 'react';
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { visuallyHidden } from '@mui/utils';
-import axios from 'axios';
-import InputBase from '@mui/material/InputBase';
-import SearchIcon from '@mui/icons-material/Search';
-import { styled } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect, useRef, useState } from "react";
+import * as React from "react";
+import PropTypes from "prop-types";
+import { alpha } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { visuallyHidden } from "@mui/utils";
+import axios from "axios";
+import InputBase from "@mui/material/InputBase";
+import SearchIcon from "@mui/icons-material/Search";
+import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(1),
-    width: 'auto',
+    width: "auto",
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  width: "100%",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
+    transition: theme.transitions.create("width"),
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
       },
     },
   },
 }));
 
-const red = '#FFCDD2';
-const white = '#F8FAE5';
-const green = '#337357';
+const red = "#FFCDD2";
+const white = "#F8FAE5";
+const green = "#337357";
 
 const theme = createTheme({
   palette: {
@@ -100,34 +100,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: 'keterangan',
+    id: "keterangan",
     numeric: false,
     disablePadding: true,
-    label: 'Keterangan',
+    label: "Keterangan",
   },
   {
-    id: 'penanggung_jawab',
+    id: "penanggung_jawab",
     numeric: true,
     disablePadding: false,
-    label: 'Penanggung Jawab',
+    label: "Penanggung Jawab",
   },
   {
-    id: 'tanggal_pengeluaran',
+    id: "tanggal_pengeluaran",
     numeric: true,
     disablePadding: false,
-    label: 'Tanggal Pengeluaran',
+    label: "Tanggal Pengeluaran",
   },
   {
-    id: 'nominal',
+    id: "nominal",
     numeric: true,
     disablePadding: false,
-    label: 'Nominal',
+    label: "Nominal",
   },
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-    props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -142,26 +148,26 @@ function EnhancedTableHead(props) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              'aria-label': 'select all desserts',
+              "aria-label": "select all desserts",
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'left' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            align={headCell.numeric ? "left" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -176,7 +182,7 @@ EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
@@ -191,13 +197,16 @@ function EnhancedTableToolbar(props) {
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+            alpha(
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity
+            ),
         }),
       }}
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{ flex: '1 1 100%' }}
+          sx={{ flex: "1 1 100%" }}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -206,7 +215,7 @@ function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: '1 1 100%' }}
+          sx={{ flex: "1 1 100%" }}
           variant="h6"
           id="tableTitle"
           component="div"
@@ -221,7 +230,9 @@ function EnhancedTableToolbar(props) {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : ""}
+      ) : (
+        ""
+      )}
     </Toolbar>
   );
 }
@@ -233,28 +244,29 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable() {
   const navigate = useNavigate();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('nominal');
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("nominal");
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [selected, setSelected] = React.useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
-  
+
   useEffect(() => {
-    axios.get('http://localhost:5000/get_data_pengeluaran')
-      .then(response => {
+    axios
+      .get("http://localhost:5001/get_data_pengeluaran")
+      .then((response) => {
         setData(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching data:', error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
       });
   }, []);
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -268,21 +280,25 @@ export default function EnhancedTable() {
 
   const handleDelete = async () => {
     try {
-      const selectedRows = selected.map((id) => data.find((row) => row.id === id));
-      await axios.delete('http://localhost:5000/delete_data_pengeluaran', { data: selectedRows });
+      const selectedRows = selected.map((id) =>
+        data.find((row) => row.id === id)
+      );
+      await axios.delete("http://localhost:5001/delete_data_pengeluaran", {
+        data: selectedRows,
+      });
       setSelected([]);
-      axios.get('http://localhost:5000/get_data_pengeluaran')
-        .then(response => {
+      axios
+        .get("http://localhost:5001/get_data_pengeluaran")
+        .then((response) => {
           setData(response.data);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
     } catch (error) {
-      console.error('Error deleting data:', error);
+      console.error("Error deleting data:", error);
     }
   };
-  
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -306,7 +322,7 @@ export default function EnhancedTable() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
     setSelected(newSelected);
@@ -327,7 +343,7 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   const visibleRows = stableSort(filteredData, (a, b) => {
-    if (order === 'desc') {
+    if (order === "desc") {
       return b[orderBy] - a[orderBy];
     } else {
       return a[orderBy] - b[orderBy];
@@ -335,36 +351,55 @@ export default function EnhancedTable() {
   }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage, filteredData);
 
   const handleTambahDataButton = () => {
-    navigate('/tambah-data-pengeluaran');
+    navigate("/tambah-data-pengeluaran");
   };
 
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
-    setPage(0); 
+    setPage(0);
   };
 
   return (
     <ThemeProvider theme={theme}>
       <div>
         <Box sx={{ marginX: 10 }}>
-          <Paper sx={{ width: '100%', marginY: 5}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', }}>
+          <Paper sx={{ width: "100%", marginY: 5 }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <EnhancedTableToolbar
                 numSelected={selected.length}
                 onDelete={handleDelete}
               />
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginY: 2, marginX: 2}}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginY: 2,
+                  marginX: 2,
+                }}
+              >
                 <Search>
                   <SearchIconWrapper>
                     <SearchIcon />
                   </SearchIconWrapper>
                   <StyledInputBase
                     placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
+                    inputProps={{ "aria-label": "search" }}
                     onChange={handleSearchTermChange}
                   />
                 </Search>
-                <Button variant="outlined" style={{ textTransform: 'none' }} color="green" onClick={handleTambahDataButton}>
+                <Button
+                  variant="outlined"
+                  style={{ textTransform: "none" }}
+                  color="green"
+                  onClick={handleTambahDataButton}
+                >
                   Tambah
                 </Button>
               </Box>
@@ -373,7 +408,7 @@ export default function EnhancedTable() {
               <Table
                 sx={{ minWidth: 750 }}
                 aria-labelledby="tableTitle"
-                size={dense ? 'small' : 'medium'}
+                size={dense ? "small" : "medium"}
               >
                 <EnhancedTableHead
                   numSelected={selected.length}
@@ -403,15 +438,24 @@ export default function EnhancedTable() {
                             color="primary"
                             checked={isItemSelected}
                             inputProps={{
-                              'aria-labelledby': labelId,
+                              "aria-labelledby": labelId,
                             }}
                           />
                         </TableCell>
-                        <TableCell component="th" id={labelId} scope="row" padding="none">
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          padding="none"
+                        >
                           {row.keterangan}
                         </TableCell>
-                        <TableCell align="left">{row.penanggung_jawab}</TableCell>
-                        <TableCell align="left">{row.tanggal_pengeluaran}</TableCell>
+                        <TableCell align="left">
+                          {row.penanggung_jawab}
+                        </TableCell>
+                        <TableCell align="left">
+                          {row.tanggal_pengeluaran}
+                        </TableCell>
                         <TableCell align="left">{row.nominal}</TableCell>
                       </TableRow>
                     );
@@ -439,7 +483,6 @@ export default function EnhancedTable() {
             />
           </Paper>
         </Box>
-
       </div>
     </ThemeProvider>
   );

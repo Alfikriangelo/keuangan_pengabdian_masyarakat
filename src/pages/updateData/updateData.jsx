@@ -1,62 +1,53 @@
 import React, { useState, useEffect } from "react";
-import Navbar from '../../component/Navbar/Navbar'
-import BackButtonRekap from '../../component/BackButtonRekap/BackButtonRekap'
-import { Autocomplete, Box, Button, Typography } from '@mui/material'
-import TextField from '@mui/material/TextField';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import jsonDataPemasukan from '../../component/TableRekap/data.json';
-import jsonDataPengeluaran from '../../component/TablePengeluaran/data.json';
+import Navbar from "../../component/Navbar/Navbar";
+import BackButtonRekap from "../../component/BackButtonRekap/BackButtonRekap";
+import { Autocomplete, Box, Button, Typography } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import jsonDataPemasukan from "../../component/TableRekap/data.json";
+import jsonDataPengeluaran from "../../component/TablePengeluaran/data.json";
 
-
-
-const red = '#D32F2F';
-const white = '#F8FAE5';
-const green = '#337357';
+const red = "#D32F2F";
+const white = "#F8FAE5";
+const green = "#337357";
 
 const theme = createTheme({
   palette: {
     red: {
       main: red,
     },
-    white:{
+    white: {
       main: white,
     },
-    green:{
-      main: green
-    }
+    green: {
+      main: green,
+    },
   },
 });
 
 const kategori = [
-  {label: "Kebersihan"},
-  {label: "Keamanan"},
-  {label: "Sumbangan"}
-]
+  { label: "Kebersihan" },
+  { label: "Keamanan" },
+  { label: "Sumbangan" },
+];
 
-const penerima = [
-  {label: "Bendahara"},
-  {label: "Ketua RT"}
-]
+const penerima = [{ label: "Bendahara" }, { label: "Ketua RT" }];
 
-const status = [
-  {label: "Lunas"},
-  {label: "Sebagian"},
-  {label: "Belum"}
-]
+const status = [{ label: "Lunas" }, { label: "Sebagian" }, { label: "Belum" }];
 
 const UpdateData = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [nama, setNama] = useState("");
   const [selectedKategori, setSelectedKategori] = useState(null);
-  const [kategoriInputValue, setKategoriInputValue] = useState('');
+  const [kategoriInputValue, setKategoriInputValue] = useState("");
   const [selectedStatus, setSelectedStatus] = useState(null);
-  const [statusInputValue, setStatusInputValue] = useState('');
-  const [selectedPenerima, setSelectedPenerima] = useState(null)
-  const [penerimaInputValue, setPenerimaInputValue] = useState('');
-  const [tanggalTerima, setTanggalPenerima] = useState("")
+  const [statusInputValue, setStatusInputValue] = useState("");
+  const [selectedPenerima, setSelectedPenerima] = useState(null);
+  const [penerimaInputValue, setPenerimaInputValue] = useState("");
+  const [tanggalTerima, setTanggalPenerima] = useState("");
   const [nominal, setNominal] = useState(0);
   const [dataPemasukan, setDataPemasukan] = useState(null);
   const [dataPengeluaran, setDataPengeluaran] = useState(null);
@@ -66,14 +57,15 @@ const UpdateData = () => {
     setDataPengeluaran(jsonDataPengeluaran);
   }, []);
 
-
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/get_data_rekap/${id}`);
+      const response = await axios.get(
+        `http://localhost:5001/get_data_rekap/${id}`
+      );
       const data = response.data;
       setNama(data.nama || "");
       setSelectedKategori(data.kategori || null);
@@ -82,8 +74,8 @@ const UpdateData = () => {
       setSelectedPenerima(data.penerima || null);
       setTanggalPenerima(data.tanggal_terima || "");
     } catch (error) {
-      console.error('Error:', error);
-      alert('Gagal memuat data.');
+      console.error("Error:", error);
+      alert("Gagal memuat data.");
     }
   };
 
@@ -93,36 +85,55 @@ const UpdateData = () => {
     const dataToUpdate = {
       id,
       nama,
-      kategori: selectedKategori ? selectedKategori.label : '',
+      kategori: selectedKategori ? selectedKategori.label : "",
       nominal: parseInt(nominal),
-      status: selectedStatus ? selectedStatus.label : '',
-      penerima: selectedPenerima ? selectedPenerima.label : '',
-      tanggal_terima: tanggalTerima
+      status: selectedStatus ? selectedStatus.label : "",
+      penerima: selectedPenerima ? selectedPenerima.label : "",
+      tanggal_terima: tanggalTerima,
     };
 
     try {
-      await axios.put(`http://localhost:5000/update_data_rekap/${id}`, dataToUpdate);
+      await axios.put(
+        `http://localhost:5001/update_data_rekap/${id}`,
+        dataToUpdate
+      );
 
-      navigate('/rekap')
+      navigate("/rekap");
     } catch (error) {
-      console.error('Error:', error);
-      alert('Gagal memperbarui data.');
+      console.error("Error:", error);
+      alert("Gagal memperbarui data.");
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{marginBottom: 80}}>
-      <Navbar jsonDataPemasukan={dataPemasukan} jsonDataPengeluaran={dataPengeluaran} />
-        <Typography mt={13} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 30, fontWeight:'bold', color: '#337357'}}>
+      <div style={{ marginBottom: 80 }}>
+        <Navbar
+          jsonDataPemasukan={dataPemasukan}
+          jsonDataPengeluaran={dataPengeluaran}
+        />
+        <Typography
+          mt={13}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: 30,
+            fontWeight: "bold",
+            color: "#337357",
+          }}
+        >
           Perbarui Data Keuangan
         </Typography>
         <Box mx={33}>
-          <Typography mt={5}style={{ fontSize: 18, fontWeight:'bold', color: '#337357'}}>
+          <Typography
+            mt={5}
+            style={{ fontSize: 18, fontWeight: "bold", color: "#337357" }}
+          >
             Data Kepala Keluarga
           </Typography>
-          <Box style={{ display: 'flex', justifyContent: 'space-between'}} >
-            <TextField 
+          <Box style={{ display: "flex", justifyContent: "space-between" }}>
+            <TextField
               margin="normal"
               required
               label="Nama"
@@ -133,45 +144,52 @@ const UpdateData = () => {
               onChange={(e) => {
                 setNama(e.target.value);
               }}
-              sx={{width: 350}}
+              sx={{ width: 350 }}
             />
           </Box>
         </Box>
 
         <Box mx={33}>
-          <Typography mt={5}style={{ fontSize: 18, fontWeight:'bold', color: '#337357'}}>
+          <Typography
+            mt={5}
+            style={{ fontSize: 18, fontWeight: "bold", color: "#337357" }}
+          >
             Pembayaran
           </Typography>
-          <Box style={{ display: 'flex', justifyContent: 'space-between'}} >
-          <Autocomplete
-            disablePortal
-            id="kategori"
-            options={kategori}
-            sx={{ 
+          <Box style={{ display: "flex", justifyContent: "space-between" }}>
+            <Autocomplete
+              disablePortal
+              id="kategori"
+              options={kategori}
+              sx={{
                 width: 350,
                 marginTop: 2,
-                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
+                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline':
+                  {
+                    borderColor: "#337357",
+                  },
+                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline':
+                  {
+                    borderColor: "#337357",
+                  },
+                "& .MuiInputLabel-root": {
+                  color: "#337357",
                 },
-                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#337357', 
-                },
-            }}
-            renderInput={(params) => <TextField {...params} label="Kategori" />}
-            value={selectedKategori}
-            onChange={(event, newKategori) => {
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Kategori" />
+              )}
+              value={selectedKategori}
+              onChange={(event, newKategori) => {
                 setSelectedKategori(newKategori);
-            }}
-            inputValue={kategoriInputValue}
-            onInputChange={(event, newKategoriInputValue) => {
+              }}
+              inputValue={kategoriInputValue}
+              onInputChange={(event, newKategoriInputValue) => {
                 setKategoriInputValue(newKategoriInputValue);
-            }}
-          />
+              }}
+            />
 
-            <TextField 
+            <TextField
               margin="normal"
               label="Nominal"
               name="nominal"
@@ -181,30 +199,32 @@ const UpdateData = () => {
               onChange={(e) => {
                 setNominal(e.target.value);
               }}
-              sx={{width: 350}}
+              sx={{ width: 350 }}
             />
-
-            
           </Box>
-          <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box style={{ display: "flex", justifyContent: "space-between" }}>
             <Autocomplete
               disablePortal
               id="penerima"
               options={penerima}
-              sx={{ 
+              sx={{
                 width: 350,
                 marginTop: 2,
-                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#337357', 
+                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline':
+                  {
+                    borderColor: "#337357",
+                  },
+                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline':
+                  {
+                    borderColor: "#337357",
+                  },
+                "& .MuiInputLabel-root": {
+                  color: "#337357",
                 },
               }}
-              renderInput={(params) => <TextField {...params} label="Penerima" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Penerima" />
+              )}
               value={selectedPenerima}
               onChange={(event, newPenerima) => {
                 setSelectedPenerima(newPenerima);
@@ -214,7 +234,7 @@ const UpdateData = () => {
                 setPenerimaInputValue(newPenerimaInputValue);
               }}
             />
-            
+
             <input
               type="date"
               name="tanggal_terima"
@@ -226,23 +246,22 @@ const UpdateData = () => {
                 marginTop: 17,
                 height: 35,
                 width: 330,
-                padding: '10px',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                fontFamily: 'Roboto, sans-serif',
-                color: '#337357' 
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                outline: "none",
+                transition: "border-color 0.2s",
+                fontFamily: "Roboto, sans-serif",
+                color: "#337357",
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#337357';
-                e.target.style.transition = 'border-color 0.2s, color 0.2s'; 
-              }} 
+                e.target.style.borderColor = "#337357";
+                e.target.style.transition = "border-color 0.2s, color 0.2s";
+              }}
               onBlur={(e) => {
-                e.target.style.borderColor = '#ccc';
-              }} 
+                e.target.style.borderColor = "#ccc";
+              }}
             />
-            
           </Box>
 
           <Box>
@@ -250,17 +269,19 @@ const UpdateData = () => {
               disablePortal
               id="status"
               options={status}
-              sx={{ 
+              sx={{
                 width: 350,
                 marginTop: 2,
-                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline': {
-                    borderColor: '#337357',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#337357', 
+                '& .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"]:hover .MuiOutlinedInput-notchedOutline':
+                  {
+                    borderColor: "#337357",
+                  },
+                '& .MuiAutocomplete-inputRoot[class*="Mui-focused"] .MuiOutlinedInput-notchedOutline':
+                  {
+                    borderColor: "#337357",
+                  },
+                "& .MuiInputLabel-root": {
+                  color: "#337357",
                 },
               }}
               renderInput={(params) => <TextField {...params} label="Status" />}
@@ -272,16 +293,25 @@ const UpdateData = () => {
               onInputChange={(event, newStatusInputValue) => {
                 setStatusInputValue(newStatusInputValue);
               }}
-            />      
+            />
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
+          <Box
+            sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}
+          >
             <BackButtonRekap />
-            <Button variant='contained' style={{textTransform: 'none', color: 'white', marginLeft: 10}} color='green' onClick={handleSubmit}>Kirim</Button>
+            <Button
+              variant="contained"
+              style={{ textTransform: "none", color: "white", marginLeft: 10 }}
+              color="green"
+              onClick={handleSubmit}
+            >
+              Kirim
+            </Button>
           </Box>
         </Box>
       </div>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default UpdateData
+export default UpdateData;

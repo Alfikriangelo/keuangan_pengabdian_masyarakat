@@ -196,5 +196,38 @@
         "status": "Sebagian"
       }
     ]
+  },
+  {
+    "id": "13",
+    "nama": "tes ges",
+    "history": [
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Bendahara",
+        "kategori": "Keamanan",
+        "nominal": 1,
+        "status": "Lunas"
+      }
+    ]
+  },
+  {
+    "id": "14",
+    "nama": "tes ges2",
+    "history": [
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Bendahara",
+        "kategori": "Kebersihan",
+        "nominal": 1,
+        "status": "Lunas"
+      },
+      {
+        "tanggal_terima": "1111-11-11",
+        "penerima": "Ketua RT",
+        "kategori": "Sumbangan",
+        "nominal": 10000,
+        "status": "Lunas"
+      }
+    ]
   }
 ]

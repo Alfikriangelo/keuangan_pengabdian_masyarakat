@@ -246,4 +246,4 @@ def get_all_data_pengeluaran():
         return jsonify({'error': 'Data not found'}), 404
 
 if __name__ == '__main__': 
-    app.run()
+    app.run(port=5001)
