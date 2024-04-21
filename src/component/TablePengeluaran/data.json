@@ -1,16 +1,1 @@
-[
-  {
-    "id": "1",
-    "keterangan": "Acara 17 agustusan",
-    "penanggung_jawab": "Alfikri",
-    "tanggal_pengeluaran": "1-08-2023",
-    "nominal": 1000000
-  },
-  {
-    "id": "2",
-    "keterangan": "Perbaiki parit",
-    "penanggung_jawab": "Darel",
-    "tanggal_pengeluaran": "16-02-2024",
-    "nominal": 950000
-  }
-]
+[]

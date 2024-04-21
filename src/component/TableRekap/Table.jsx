@@ -112,9 +112,9 @@ function Row(props) {
       const lebihan = historyRow.nominal - 30000;
       additionalInfo.push("Nominal Keamanan: Rp30000" + ` + Rp${lebihan}`);
     }
-    if (historyRow.kategori === "Kebersihan" && historyRow.nominal > 50000) {
-      const lebihan = historyRow.nominal - 50000;
-      additionalInfo.push("Nominal Kebersihan: Rp50000" + ` + Rp${lebihan}`);
+    if (historyRow.kategori === "Kebersihan" && historyRow.nominal > 30000) {
+      const lebihan = historyRow.nominal - 30000;
+      additionalInfo.push("Nominal Kebersihan: Rp30000" + ` + Rp${lebihan}`);
     }
     return additionalInfo.join(", ");
   };
